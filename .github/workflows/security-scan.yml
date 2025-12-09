@@ -1,0 +1,31 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Run security tests
+      run: npm run test:security
+    
+    - name: Run red team simulation
+      run: npm run red-team
+    
+    - name: Check for vulnerabilities
+      run: npm audit --audit-level=moderate

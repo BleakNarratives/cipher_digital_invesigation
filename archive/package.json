@@ -1,0 +1,50 @@
+{
+  "name": "crypto-forensics-workbench",
+  "version": "2.0.0",
+  "description": "Enterprise-grade digital forensics and crypto recovery platform",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "cfwb": "./src/cli/index.js"
+  },
+  "scripts": {
+    "start": "node start.js",
+    "cli": "node src/cli/index.js",
+    "api": "node src/api/server.js",
+    "test": "node --test tests/**/*.test.js",
+    "test:security": "node --test tests/security.test.js",
+    "benchmark": "node benchmarks/run.js",
+    "red-team": "node tests/red-team-simulation.js",
+    "sim:workflow": "node simulations/workflow-demo.js",
+    "sim:security": "node simulations/security-test-sim.js",
+    "sim:all": "npm run sim:workflow && npm run sim:security"
+  },
+  "keywords": ["crypto", "forensics", "blockchain", "wallet-recovery", "investigation", "osint"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bip39": "^3.1.0",
+    "bip32": "^4.0.0",
+    "bitcoinjs-lib": "^6.1.5",
+    "ethers": "^6.9.0",
+    "web3": "^4.3.0",
+    "@solana/web3.js": "^1.87.6",
+    "commander": "^11.1.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1",
+    "fastify": "^4.25.2",
+    "pino": "^8.17.2",
+    "pino-pretty": "^10.3.1",
+    "graphology": "^0.25.4",
+    "graphology-layout-forceatlas2": "^0.10.1",
+    "bull": "^4.12.0",
+    "ioredis": "^5.3.2",
+    "dotenv": "^16.3.1",
+    "zod": "^3.22.4",
+    "csv-writer": "^1.6.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "autocannon": "^7.14.0"
+  }
+}
