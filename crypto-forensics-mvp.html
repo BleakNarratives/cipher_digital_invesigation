@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Forensics Workbench - Wallet Recovery</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0a0e27;
+      --bg-secondary: #151932;
+      --bg-card: #1e2139;
+      --accent: #00d4ff;
+      --accent-hover: #00b8e6;
+      --text-primary: #e4e4e7;
+      --text-secondary: #a1a1aa;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: #2d3250;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent) 0%, #00ff88 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .voice-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      padding: 1rem;
+      background: var(--bg-card);
+      border-radius: 12px;
+    }
+
+    .voice-btn {
+      background: var(--accent);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.3s;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--bg-primary);
+    }
+
+    .voice-btn:hover {
+      background: var(--accent-hover);
+      transform: scale(1.05);
+    }
+
+    .voice-btn.listening {
+      background: var(--danger);
+      animation: pulse 1.5s infinite;
+    }
+
+    .voice-btn:disabled {
+      background: var(--text-secondary);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .voice-feedback {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .voice-commands {
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--accent);
+    }
+
+    .voice-commands h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .voice-commands ul {
+      list-style: none;
+    }
+
+    .voice-commands li {
+      padding: 0.5rem 0;
+      color: var(--text-secondary);
+    }
+
+    .voice-commands code {
+      background: var(--bg-secondary);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      color: var(--accent);
+      font-family: 'Courier New', monospace;
+    }
+
+    .tool-section {
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .tool-section h2 {
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .help-text {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    textarea {
+      resize: vertical;
+      font-family: 'Courier New', monospace;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-primary);
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1.1rem;
+      width: 100%;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+    }
+
+    .btn-primary:disabled {
+      background: var(--text-secondary);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .results {
+      margin-top: 2rem;
+    }
+
+    .alert {
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-left: 4px solid;
+    }
+
+    .alert-info {
+      background: rgba(0, 212, 255, 0.1);
+      border-left-color: var(--accent);
+      color: var(--text-primary);
+    }
+
+    .alert-success {
+      background: rgba(16, 185, 129, 0.1);
+      border-left-color: var(--success);
+      color: var(--text-primary);
+    }
+
+    .alert-error {
+      background: rgba(239, 68, 68, 0.1);
+      border-left-color: var(--danger);
+      color: var(--text-primary);
+    }
+
+    .alert-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border-left-color: var(--warning);
+      color: var(--text-primary);
+    }
+
+    .result-item {
+      background: var(--bg-secondary);
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .result-mnemonic {
+      flex: 1;
+      word-break: break-all;
+    }
+
+    .btn-copy {
+      background: var(--accent);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--bg-primary);
+      font-weight: 600;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .btn-copy:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-copy.copied {
+      background: var(--success);
+    }
+
+    .history-section {
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 12px;
+    }
+
+    .history-item {
+      background: var(--bg-secondary);
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+
+    .history-item:hover {
+      border-color: var(--accent);
+      transform: translateX(5px);
+    }
+
+    .history-time {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .history-query {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+
+    .spinner {
+      border: 3px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .stat-card {
+      background: var(--bg-secondary);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔐 Crypto Forensics Workbench</h1>
+      <p class="subtitle">Wallet Recovery Tool - MVP Edition</p>
+    </header>
+
+    <!-- Voice Control -->
+    <div class="voice-control">
+      <button id="voiceBtn" class="voice-btn">
+        <span class="mic-icon">🎤</span>
+        <span id="voiceStatus">Click to Start</span>
+      </button>
+      <div class="voice-feedback" id="voiceFeedback">
+        Voice commands ready...
+      </div>
+    </div>
+
+    <div class="voice-commands">
+      <h3>🎙️ Voice Commands (3 Simple Commands)</h3>
+      <ul>
+        <li><code>"recover wallet"</code> - Focus on recovery input</li>
+        <li><code>"show history"</code> - View past recoveries</li>
+        <li><code>"help"</code> - Show this help</li>
+      </ul>
+    </div>
+
+    <!-- Main Tool -->
+    <div class="tool-section" id="recoverySection">
+      <h2>💼 Wallet Recovery</h2>
+      <p class="help-text">
+        Enter your mnemonic phrase with <strong>???</strong> for missing words. 
+        The tool will try all possible combinations to find valid mnemonics.
+        <br><br>
+        <strong>Example:</strong> abandon abandon ??? abandon abandon about
+      </p>
+
+      <label for="mnemonic">Mnemonic Phrase (use ??? for missing words)</label>
+      <textarea 
+        id="mnemonic" 
+        rows="3" 
+        placeholder="abandon abandon ??? abandon abandon about"
+      ></textarea>
+
+      <label for="targetAddress">Target Address (optional - helps verify correct recovery)</label>
+      <input 
+        type="text" 
+        id="targetAddress" 
+        placeholder="0x... or bc1... (optional)"
+      />
+
+      <button class="btn-primary" id="recoverBtn" onclick="startRecovery()">
+        🚀 Start Recovery
+      </button>
+
+      <div id="results" class="results"></div>
+    </div>
+
+    <!-- History Section -->
+    <div class="history-section" id="historySection" style="display: none;">
+      <h2>📜 Recovery History</h2>
+      <p class="help-text">Your past recovery attempts (stored locally)</p>
+      <div id="historyList"></div>
+      <button class="btn-primary" onclick="clearHistory()" style="margin-top: 1rem; background: var(--danger);">
+        🗑️ Clear History
+      </button>
+    </div>
+
+    <footer>
+      <p>Built for Calvin 💪 | No backend required | Works offline | Data stays local</p>
+      <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+        <strong>Privacy:</strong> All processing happens in your browser. Nothing is sent to any server.
+      </p>
+    </footer>
+  </div>
+
+  <!-- BIP39 Library from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bip39@3.1.0/dist/bip39.min.js"></script>
+  
+  <script>
+    // Voice Recognition Setup
+    class VoiceController {
+      constructor() {
+        this.recognition = null;
+        this.isListening = false;
+        this.isSupported = false;
+        this.initRecognition();
+      }
+
+      initRecognition() {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          this.recognition = new SpeechRecognition();
+          this.recognition.continuous = false;
+          this.recognition.interimResults = true;
+          this.recognition.lang = 'en-US';
+          this.isSupported = true;
+
+          this.recognition.onresult = (event) => {
+            const transcript = Array.from(event.results)
+              .map(result => result[0].transcript)
+              .join('');
+            
+            this.handleVoiceCommand(transcript);
+            document.getElementById('voiceFeedback').textContent = `Heard: "${transcript}"`;
+          };
+
+          this.recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            document.getElementById('voiceFeedback').textContent = `Error: ${event.error}`;
+            this.stopListening();
+          };
+
+          this.recognition.onend = () => {
+            this.stopListening();
+          };
+        } else {
+          // Voice not supported
+          const btn = document.getElementById('voiceBtn');
+          btn.disabled = true;
+          btn.querySelector('#voiceStatus').textContent = 'Voice Not Available';
+          document.getElementById('voiceFeedback').textContent = 'Voice control not supported in this browser. Try Chrome or Edge.';
+        }
+      }
+
+      startListening() {
+        if (!this.recognition || !this.isSupported) {
+          return;
+        }
+
+        this.isListening = true;
+        this.recognition.start();
+        
+        const btn = document.getElementById('voiceBtn');
+        btn.classList.add('listening');
+        btn.querySelector('#voiceStatus').textContent = 'Listening...';
+        document.getElementById('voiceFeedback').textContent = 'Speak now...';
+      }
+
+      stopListening() {
+        this.isListening = false;
+        
+        const btn = document.getElementById('voiceBtn');
+        btn.classList.remove('listening');
+        btn.querySelector('#voiceStatus').textContent = 'Click to Start';
+      }
+
+      handleVoiceCommand(command) {
+        const lower = command.toLowerCase();
+        
+        // Only 3 commands as per MVP spec
+        if (lower.includes('recover') && lower.includes('wallet')) {
+          document.getElementById('mnemonic').focus();
+          document.getElementById('voiceFeedback').textContent = '✅ Command: Recover Wallet - Input focused';
+          showSection('recovery');
+        } else if (lower.includes('history') || lower.includes('show history')) {
+          document.getElementById('voiceFeedback').textContent = '✅ Command: Show History';
+          showSection('history');
+        } else if (lower.includes('help')) {
+          document.getElementById('voiceFeedback').textContent = '✅ Command: Help - Scroll up to see voice commands';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          document.getElementById('voiceFeedback').textContent = `❌ Unknown command: "${command}". Try: "recover wallet", "show history", or "help"`;
+        }
+      }
+    }
+
+    // Initialize voice controller
+    const voiceController = new VoiceController();
+
+    document.getElementById('voiceBtn').addEventListener('click', () => {
+      if (voiceController.isListening) {
+        voiceController.stopListening();
+      } else {
+        voiceController.startListening();
+      }
+    });
+
+    // Section Management
+    function showSection(section) {
+      const recoverySection = document.getElementById('recoverySection');
+      const historySection = document.getElementById('historySection');
+      
+      if (section === 'recovery') {
+        recoverySection.style.display = 'block';
+        historySection.style.display = 'none';
+      } else if (section === 'history') {
+        recoverySection.style.display = 'none';
+        historySection.style.display = 'block';
+        loadHistory();
+      }
+    }
+
+    // Wallet Recovery Logic
+    async function startRecovery() {
+      const mnemonicInput = document.getElementById('mnemonic').value.trim();
+      const targetAddress = document.getElementById('targetAddress').value.trim();
+      const resultsDiv = document.getElementById('results');
+      const recoverBtn = document.getElementById('recoverBtn');
+
+      // Validation
+      if (!mnemonicInput) {
+        resultsDiv.innerHTML = `
+          <div class="alert alert-error">
+            <strong>❌ Error:</strong> Please enter a mnemonic phrase.
+            <br><br>
+            <strong>Tip:</strong> Use ??? for missing words. Example: abandon abandon ??? abandon abandon about
+          </div>
+        `;
+        return;
+      }
+
+      if (!mnemonicInput.includes('???')) {
+        resultsDiv.innerHTML = `
+          <div class="alert alert-warning">
+            <strong>⚠️ Warning:</strong> No missing words detected (no ???).
+            <br><br>
+            If you have the complete mnemonic, you don't need recovery. 
+            Use ??? to mark missing words.
+          </div>
+        `;
+        return;
+      }
+
+      // Disable button during processing
+      recoverBtn.disabled = true;
+      recoverBtn.textContent = '⏳ Processing...';
+
+      // Show loading
+      resultsDiv.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Searching for valid mnemonics...</p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+            This may take a few seconds depending on how many words are missing.
+          </p>
+        </div>
+      `;
+
+      // Process recovery
+      try {
+        const results = await recoverWallet(mnemonicInput, targetAddress);
+        displayResults(results, mnemonicInput);
+        
+        // Save to history
+        saveToHistory(mnemonicInput, results.length);
+      } catch (error) {
+        resultsDiv.innerHTML = `
+          <div class="alert alert-error">
+            <strong>❌ Error:</strong> ${error.message}
+            <br><br>
+            <strong>Common issues:</strong>
+            <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+              <li>Make sure you're using valid BIP39 words</li>
+              <li>Check that ??? is used for missing words</li>
+              <li>Ensure the mnemonic is 12, 15, 18, 21, or 24 words</li>
+            </ul>
+          </div>
+        `;
+      }
+
+      // Re-enable button
+      recoverBtn.disabled = false;
+      recoverBtn.textContent = '🚀 Start Recovery';
+    }
+
+    async function recoverWallet(mnemonicInput, targetAddress) {
+      const words = mnemonicInput.split(' ').filter(w => w.length > 0);
+      const missingIndices = [];
+      
+      words.forEach((word, index) => {
+        if (word === '???') {
+          missingIndices.push(index);
+        }
+      });
+
+      if (missingIndices.length === 0) {
+        throw new Error('No missing words found. Use ??? to mark missing words.');
+      }
+
+      if (missingIndices.length > 3) {
+        throw new Error('Too many missing words. This tool supports up to 3 missing words for reasonable processing time.');
+      }
+
+      // Get BIP39 wordlist
+      const wordlist = bip39.wordlists.english;
+      const validResults = [];
+      const maxResults = 100; // Limit results to prevent browser freeze
+
+      // Generate combinations
+      const combinations = generateCombinations(wordlist, missingIndices.length);
+      
+      let tested = 0;
+      for (const combo of combinations) {
+        const testWords = [...words];
+        missingIndices.forEach((index, i) => {
+          testWords[index] = combo[i];
+        });
+
+        const testMnemonic = testWords.join(' ');
+        
+        // Validate mnemonic
+        if (bip39.validateMnemonic(testMnemonic)) {
+          validResults.push(testMnemonic);
+          
+          if (validResults.length >= maxResults) {
+            break;
+          }
+        }
+
+        tested++;
+        
+        // Update progress every 1000 attempts
+        if (tested % 1000 === 0) {
+          await new Promise(resolve => setTimeout(resolve, 0)); // Allow UI to update
+        }
+      }
+
+      return validResults;
+    }
+
+    function* generateCombinations(wordlist, count) {
+      if (count === 1) {
+        for (const word of wordlist) {
+          yield [word];
+        }
+      } else if (count === 2) {
+        for (const word1 of wordlist) {
+          for (const word2 of wordlist) {
+            yield [word1, word2];
+          }
+        }
+      } else if (count === 3) {
+        // Limit to first 100 words for 3 missing to keep it reasonable
+        const limitedList = wordlist.slice(0, 100);
+        for (const word1 of limitedList) {
+          for (const word2 of limitedList) {
+            for (const word3 of limitedList) {
+              yield [word1, word2, word3];
+            }
+          }
+        }
+      }
+    }
+
+    function displayResults(results, originalQuery) {
+      const resultsDiv = document.getElementById('results');
+      
+      if (results.length === 0) {
+        resultsDiv.innerHTML = `
+          <div class="alert alert-warning">
+            <strong>⚠️ No Valid Mnemonics Found</strong>
+            <br><br>
+            This could mean:
+            <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+              <li>The known words might be incorrect</li>
+              <li>The mnemonic length might be wrong</li>
+              <li>Try double-checking the words you have</li>
+            </ul>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `
+        <div class="alert alert-success">
+          <strong>✅ Success!</strong> Found ${results.length} valid mnemonic${results.length > 1 ? 's' : ''}.
+        </div>
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-value">${results.length}</div>
+            <div class="stat-label">Valid Mnemonics</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${originalQuery.split('???').length - 1}</div>
+            <div class="stat-label">Missing Words</div>
+          </div>
+        </div>
+      `;
+
+      results.forEach((mnemonic, index) => {
+        html += `
+          <div class="result-item">
+            <div class="result-mnemonic">${mnemonic}</div>
+            <button class="btn-copy" onclick="copyToClipboard('${mnemonic}', this)">
+              📋 Copy
+            </button>
+          </div>
+        `;
+      });
+
+      if (results.length === 100) {
+        html += `
+          <div class="alert alert-info" style="margin-top: 1rem;">
+            <strong>ℹ️ Note:</strong> Showing first 100 results. There may be more valid combinations.
+          </div>
+        `;
+      }
+
+      resultsDiv.innerHTML = html;
+    }
+
+    function copyToClipboard(text, button) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = button.textContent;
+        button.textContent = '✅ Copied!';
+        button.classList.add('copied');
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        alert('Failed to copy: ' + err);
+      });
+    }
+
+    // History Management (LocalStorage)
+    function saveToHistory(query, resultCount) {
+      const history = JSON.parse(localStorage.getItem('cfwb_history') || '[]');
+      
+      history.unshift({
+        query,
+        resultCount,
+        timestamp: new Date().toISOString()
+      });
+
+      // Keep only last 20 entries
+      if (history.length > 20) {
+        history.pop();
+      }
+
+      localStorage.setItem('cfwb_history', JSON.stringify(history));
+    }
+
+    function loadHistory() {
+      const history = JSON.parse(localStorage.getItem('cfwb_history') || '[]');
+      const historyList = document.getElementById('historyList');
+
+      if (history.length === 0) {
+        historyList.innerHTML = `
+          <div class="alert alert-info">
+            <strong>ℹ️ No History Yet</strong>
+            <br><br>
+            Your recovery attempts will appear here.
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      history.forEach((item, index) => {
+        const date = new Date(item.timestamp);
+        const timeStr = date.toLocaleString();
+        
+        html += `
+          <div class="history-item" onclick="loadFromHistory(${index})">
+            <div class="history-time">${timeStr}</div>
+            <div class="history-query">${item.query}</div>
+            <div style="color: var(--success); margin-top: 0.5rem; font-size: 0.9rem;">
+              ✅ Found ${item.resultCount} result${item.resultCount !== 1 ? 's' : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      historyList.innerHTML = html;
+    }
+
+    function loadFromHistory(index) {
+      const history = JSON.parse(localStorage.getItem('cfwb_history') || '[]');
+      const item = history[index];
+      
+      if (item) {
+        document.getElementById('mnemonic').value = item.query;
+        showSection('recovery');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function clearHistory() {
+      if (confirm('Are you sure you want to clear all history? This cannot be undone.')) {
+        localStorage.removeItem('cfwb_history');
+        loadHistory();
+      }
+    }
+
+    // Initialize
+    console.log('🔐 Crypto Forensics Workbench MVP - Ready!');
+    console.log('📦 BIP39 Library:', typeof bip39 !== 'undefined' ? 'Loaded ✅' : 'Failed ❌');
+    console.log('🎤 Voice Control:', voiceController.isSupported ? 'Available ✅' : 'Not Available ❌');
+  </script>
+</body>
+</html>
