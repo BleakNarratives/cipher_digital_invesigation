@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Forensics Workbench - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard">
+    <header class="header">
+      <h1>🔐 Crypto Forensics Workbench</h1>
+      <div class="voice-control">
+        <button id="voiceBtn" class="voice-btn" title="Click to activate voice commands">
+          <span class="mic-icon">🎤</span>
+          <span class="status">Ready</span>
+        </button>
+        <div class="voice-feedback" id="voiceFeedback"></div>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <aside class="sidebar">
+        <nav class="tool-nav">
+          <div class="tool-card" data-tool="wallet-recovery">
+            <div class="tool-icon">💼</div>
+            <h3>Wallet Recovery</h3>
+            <p class="tool-desc">Recover lost mnemonics</p>
+          </div>
+          
+          <div class="tool-card" data-tool="blockchain-analysis">
+            <div class="tool-icon">📊</div>
+            <h3>Blockchain Analysis</h3>
+            <p class="tool-desc">Trace transactions</p>
+          </div>
+          
+          <div class="tool-card" data-tool="graph-explorer">
+            <div class="tool-icon">🕸️</div>
+            <h3>Graph Explorer</h3>
+            <p class="tool-desc">Visualize networks</p>
+          </div>
+          
+          <div class="tool-card" data-tool="case-manager">
+            <div class="tool-icon">📁</div>
+            <h3>Case Manager</h3>
+            <p class="tool-desc">Track investigations</p>
+          </div>
+          
+          <div class="tool-card" data-tool="pattern-detector">
+            <div class="tool-icon">🔍</div>
+            <h3>Pattern Detector</h3>
+            <p class="tool-desc">Find suspicious activity</p>
+          </div>
+          
+          <div class="tool-card" data-tool="crypto-utils">
+            <div class="tool-icon">🔐</div>
+            <h3>Crypto Utils</h3>
+            <p class="tool-desc">Hash & encrypt data</p>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="workspace" id="workspace">
+        <div class="welcome-screen">
+          <h2>Welcome to Crypto Forensics Workbench</h2>
+          <p>Select a tool from the sidebar or use voice commands to get started</p>
+          <div class="quick-commands">
+            <h3>Try saying:</h3>
+            <ul>
+              <li>"Recover wallet with partial mnemonic"</li>
+              <li>"Analyze address on ethereum"</li>
+              <li>"Create new case"</li>
+              <li>"Show graph analysis"</li>
+            </ul>
+          </div>
+        </div>
+      </main>
+
+      <aside class="osint-panel" id="osintPanel">
+        <div class="osint-header">
+          <h3>🌐 OSINT Tools</h3>
+          <button class="toggle-btn" id="osintToggle">◀</button>
+        </div>
+        <div class="osint-content" id="osintContent">
+          <!-- Populated by JavaScript -->
+        </div>
+      </aside>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+  <script type="module" src="osint-loader.js"></script>
+</body>
+</html>

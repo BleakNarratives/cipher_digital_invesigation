@@ -1,0 +1,31 @@
+===================================
+TECHSTART INC. - EMPLOYEE DIRECTORY
+===================================
+
+EMPLOYEE #1
+Name: Alice Williams
+Position: Senior Developer
+Wallet Address: 0xEmployee1Alice
+Hire Date: 2022-03-15
+Access Level: Full
+
+EMPLOYEE #2
+Name: Bob Smith
+Position: Junior Developer
+Wallet Address: 0xEmployee2Bob
+Hire Date: 2023-06-01
+Access Level: Standard
+
+EMPLOYEE #3
+Name: Charlie Brown
+Position: Marketing Manager
+Wallet Address: 0xEmployee3Charlie
+Hire Date: 2023-01-10
+Access Level: Standard
+
+===================================
+NOTES:
+- All employees have physical access to office
+- Shared computer is in main office area
+- Wallet password was on sticky note on monitor
+===================================

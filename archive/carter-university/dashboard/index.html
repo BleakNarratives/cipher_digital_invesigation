@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carter University - Learning Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <h1>🎓 Carter University</h1>
+        <p class="tagline">Digital Forensics Training Platform</p>
+      </div>
+      <div class="user-info">
+        <span class="welcome">Welcome, <strong id="userName">Calvin</strong>!</span>
+        <button class="btn-settings" onclick="openSettings()">⚙️ Settings</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <nav class="nav-menu">
+          <div class="nav-section">
+            <h3>📚 Learning Path</h3>
+            <a href="#" class="nav-item active" onclick="loadModule('start')">
+              <span class="icon">🎯</span>
+              <span class="text">Start Here</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadModule('terminal')">
+              <span class="icon">💻</span>
+              <span class="text">Terminal Basics</span>
+              <span class="badge">Lesson 1</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadModule('crypto')">
+              <span class="icon">₿</span>
+              <span class="text">Crypto 101</span>
+              <span class="badge">Lesson 2</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadModule('osint')">
+              <span class="icon">🔍</span>
+              <span class="text">OSINT Basics</span>
+              <span class="badge">Lesson 3</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadModule('forensics')">
+              <span class="icon">🕵️</span>
+              <span class="text">Forensics</span>
+              <span class="badge">Lesson 4</span>
+            </a>
+          </div>
+
+          <div class="nav-section">
+            <h3>🎮 Practice</h3>
+            <a href="#" class="nav-item" onclick="loadModule('sandbox')">
+              <span class="icon">🧪</span>
+              <span class="text">Sandbox</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadModule('cases')">
+              <span class="icon">📁</span>
+              <span class="text">Case Studies</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadModule('exercises')">
+              <span class="icon">✏️</span>
+              <span class="text">Exercises</span>
+            </a>
+          </div>
+
+          <div class="nav-section">
+            <h3>📖 Resources</h3>
+            <a href="#" class="nav-item" onclick="loadModule('glossary')">
+              <span class="icon">📚</span>
+              <span class="text">Glossary</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadModule('cheatsheets')">
+              <span class="icon">📋</span>
+              <span class="text">Cheat Sheets</span>
+            </a>
+            <a href="#" class="nav-item" onclick="loadModule('faq')">
+              <span class="icon">❓</span>
+              <span class="text">FAQ</span>
+            </a>
+          </div>
+        </nav>
+
+        <!-- Progress Tracker -->
+        <div class="progress-widget">
+          <h4>Your Progress</h4>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 15%"></div>
+          </div>
+          <p class="progress-text">15% Complete</p>
+          <ul class="progress-list">
+            <li class="completed">✅ Started learning</li>
+            <li class="completed">✅ Read introduction</li>
+            <li class="in-progress">🔄 Terminal basics</li>
+            <li>⬜ Crypto fundamentals</li>
+            <li>⬜ First investigation</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Workspace -->
+      <main class="workspace" id="workspace">
+        <!-- Welcome Screen (Default) -->
+        <div class="welcome-screen">
+          <div class="hero">
+            <h2>Welcome to Carter University! 🎓</h2>
+            <p class="subtitle">Your journey to becoming a digital forensics investigator starts here.</p>
+          </div>
+
+          <div class="quick-start">
+            <h3>Quick Start Guide</h3>
+            <div class="card-grid">
+              <div class="card" onclick="loadModule('start')">
+                <div class="card-icon">🎯</div>
+                <h4>Start Here</h4>
+                <p>New to everything? Begin with the basics.</p>
+              </div>
+              
+              <div class="card" onclick="loadModule('terminal')">
+                <div class="card-icon">💻</div>
+                <h4>Terminal Training</h4>
+                <p>Learn command-line skills for investigations.</p>
+              </div>
+              
+              <div class="card" onclick="loadModule('crypto')">
+                <div class="card-icon">₿</div>
+                <h4>Crypto Basics</h4>
+                <p>Understand blockchain and cryptocurrency.</p>
+              </div>
+              
+              <div class="card" onclick="loadModule('cases')">
+                <div class="card-icon">🔍</div>
+                <h4>Solve Cases</h4>
+                <p>Practice with real-world scenarios.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="features">
+            <h3>What You'll Learn</h3>
+            <div class="feature-list">
+              <div class="feature-item">
+                <span class="feature-icon">💻</span>
+                <div>
+                  <h4>Terminal Mastery</h4>
+                  <p>Command-line skills every investigator needs</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">🔗</span>
+                <div>
+                  <h4>Blockchain Analysis</h4>
+                  <p>Track cryptocurrency transactions</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">🕵️</span>
+                <div>
+                  <h4>OSINT Techniques</h4>
+                  <p>Find information from public sources</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">📊</span>
+                <div>
+                  <h4>Forensic Tools</h4>
+                  <p>Use professional investigation software</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-section">
+            <button class="btn-primary btn-large" onclick="loadModule('start')">
+              🚀 Start Learning Now
+            </button>
+            <p class="cta-note">No prior experience needed • Learn at your own pace • 100% Free</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Help Button (Floating) -->
+    <button class="help-button" onclick="toggleHelp()" title="Need help?">
+      ❓
+    </button>
+
+    <!-- Help Panel (Hidden by default) -->
+    <div class="help-panel" id="helpPanel">
+      <div class="help-header">
+        <h3>Need Help?</h3>
+        <button onclick="toggleHelp()">✕</button>
+      </div>
+      <div class="help-content">
+        <h4>Quick Tips:</h4>
+        <ul>
+          <li>Click any lesson in the sidebar to start</li>
+          <li>Use the sandbox to practice safely</li>
+          <li>Check the glossary for unfamiliar terms</li>
+          <li>Take your time - there's no rush!</li>
+        </ul>
+        <h4>Stuck?</h4>
+        <p>Check the FAQ or review previous lessons.</p>
+        <button class="btn-secondary" onclick="loadModule('faq')">View FAQ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

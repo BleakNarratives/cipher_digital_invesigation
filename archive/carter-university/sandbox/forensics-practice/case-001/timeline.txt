@@ -1,0 +1,43 @@
+===================================
+OFFICE ACCESS LOG - JANUARY 15, 2024
+===================================
+
+08:00 AM - Office opens
+08:15 AM - Alice Williams arrives
+08:30 AM - Charlie Brown arrives
+09:00 AM - Bob Smith arrives
+
+09:00 AM - 12:00 PM
+- All employees working at their desks
+- Shared computer used by Alice for email (9:30 AM)
+- Shared computer used by Charlie for presentation (10:45 AM)
+
+12:00 PM - 1:00 PM - LUNCH BREAK
+- Alice leaves for lunch (12:00 PM)
+- Charlie leaves for lunch (12:05 PM)
+- Bob stays in office "to finish code" (his words)
+- Bob alone in office from 12:05 PM - 1:00 PM
+
+1:00 PM - 5:00 PM
+- All employees return
+- Normal work activities
+- Shared computer used by Alice (2:00 PM)
+- Bob leaves early "not feeling well" (3:30 PM)
+
+5:00 PM - Office closes
+- Alice leaves (5:00 PM)
+- Charlie leaves (5:15 PM)
+
+===================================
+SECURITY CAMERA NOTES:
+- Camera shows Bob at shared computer 12:15 PM - 12:45 PM
+- Bob appeared to be looking around nervously
+- Bob used phone to take photo of screen (12:30 PM)
+===================================
+
+SUSPICIOUS ACTIVITY:
+- Bob rarely stays during lunch
+- Bob never uses shared computer normally
+- Bob left early claiming illness but seemed fine
+- Bob's phone activity during computer use
+===================================

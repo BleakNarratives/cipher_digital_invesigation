@@ -1,0 +1,128 @@
+🥊 MR. CARTER'S CRYPTO FORENSICS TRAINING ARENA 🥊
+====================================================
+
+MIKE TYSON'S PUNCH-OUT INSPIRED LEARNING GAME!
+
+📍 HOW TO START:
+1. Open "training-game/index.html" in your web browser
+2. Click the big "ENTER THE RING" button
+3. Read the explanation (it's VERBOSE on purpose!)
+4. Answer the question quickly and correctly
+5. Watch Mr. Carter land devastating blows!
+
+🥊 THE OPPONENTS:
+
+Round 1: TERMINAL TYSON 🤖 (100 HP)
+- Teaches: Basic command execution
+- Topics: node script.js, python script.py, opening HTML files, cd command
+
+Round 2: BASH BALBOA 💻 (150 HP)
+- Teaches: Shell commands
+- Topics: ls, mkdir, cat, mv, file operations
+
+Round 3: PYTHON PUNISHER 🐍 (200 HP)
+- Teaches: Python scripting
+- Topics: Script arguments, virtual environments, pip, -m flag
+
+Round 4: CRYPTO CRUSHER 🔐 (250 HP)
+- Teaches: Crypto forensics
+- Topics: git init, .env files, package.json, RPC endpoints
+
+💪 GAME MECHANICS:
+
+✅ CORRECT ANSWER:
+- Deals damage to opponent
+- Builds combo multiplier
+- Speed bonus for quick answers
+- Mr. Carter punches! 💥
+
+❌ WRONG ANSWER:
+- You take 20 HP damage
+- Combo resets to 0
+- Opponent punches you! 💢
+- Review the explanation!
+
+🎯 COMBO SYSTEM:
+- 1x combo = normal damage
+- 2x combo = +10% damage
+- 3x combo = +20% damage
+- 4x combo = +30% damage
+- Keep answering correctly to build it!
+
+⚡ SPEED BONUS:
+- Answer in <27 seconds = +10% damage
+- Answer in <24 seconds = +20% damage
+- Answer in <21 seconds = +30% damage
+- The faster you answer, the harder you hit!
+
+📚 WHAT YOU'LL LEARN:
+
+TERMINAL BASICS:
+✓ How to run JavaScript files (node script.js)
+✓ How to run Python files (python script.py)
+✓ How to open HTML files (in browser)
+✓ How to navigate directories (cd foldername)
+
+SHELL COMMANDS:
+✓ List files (ls or dir)
+✓ Create folders (mkdir foldername)
+✓ View file contents (cat filename)
+✓ Move/rename files (mv source destination)
+
+PYTHON SKILLS:
+✓ Pass arguments to scripts (python script.py arg1 arg2)
+✓ Create virtual environments (python -m venv env)
+✓ Install packages (pip install packagename)
+✓ Run modules (python -m modulename)
+
+ADVANCED TOPICS:
+✓ Initialize Git repos (git init)
+✓ Use environment variables (.env files)
+✓ Manage Node.js projects (package.json)
+✓ Connect to blockchains (RPC endpoints)
+
+🎮 FEATURES:
+
+- Retro arcade graphics with neon effects
+- Animated fighters with punch/hit animations
+- Sound effects (text-based: 💥 POW!, 💢 OUCH!)
+- Combo system with multipliers
+- Speed bonuses for quick thinking
+- VERBOSE explanations (you'll actually learn!)
+- Hint system if you're stuck
+- Mistake review on defeat
+- Progressive difficulty
+- Victory stats and rankings
+
+🏆 RANKINGS:
+
+ROOKIE: 0-59% accuracy
+FIGHTER: 60-69% accuracy
+VETERAN: 70-79% accuracy
+EXPERT: 80-89% accuracy + 3+ combo
+CHAMPION: 90%+ accuracy + 4+ combo
+
+💡 PRO TIPS:
+
+1. READ THE EXPLANATIONS! They're long for a reason - they teach you everything!
+2. Answer quickly for speed bonuses
+3. Build combos for massive damage
+4. Use hints if stuck (but try without first!)
+5. Review your mistakes to learn
+6. Each opponent gets harder - stay focused!
+
+🎯 YOUR GOAL:
+
+Defeat all 4 opponents and become a CRYPTO FORENSICS MASTER!
+
+Each opponent teaches you skills you'll use in the real Crypto Forensics Workbench.
+
+====================================================
+
+Ready, Mr. Carter?
+
+FLOAT LIKE A BUTTERFLY, CODE LIKE A CHAMPION! 🥊
+
+Open training-game/index.html NOW and ENTER THE RING!
+
+====================================================
