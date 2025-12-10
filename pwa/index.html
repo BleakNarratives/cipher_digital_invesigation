@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CIPHER - Professional crypto forensics platform. Trace, recover, and prosecute.">
+  <meta name="theme-color" content="#00D4FF">
+  <title>CIPHER - Crypto Forensics Workbench</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
+      color: #E4E4E7;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: rgba(0, 212, 255, 0.1);
+      border-bottom: 2px solid #00D4FF;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #00D4FF;
+    }
+
+    .voice-control {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .voice-btn {
+      background: #00D4FF;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .voice-btn:hover {
+      background: #00b8e6;
+      transform: translateY(-2px);
+    }
+
+    .voice-btn.listening {
+      background: #FF0040;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .tool-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .tool-card:hover {
+      background: rgba(0, 212, 255, 0.1);
+      border-color: #00D4FF;
+      transform: translateX(5px);
+    }
+
+    .tool-card.active {
+      background: rgba(0, 212, 255, 0.2);
+      border-color: #00D4FF;
+    }
+
+    .tool-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tool-card h3 {
+      color: #00D4FF;
+      margin-bottom: 0.5rem;
+    }
+
+    .tool-desc {
+      font-size: 0.9rem;
+      color: #9CA3AF;
+    }
+
+    .workspace {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      min-height: 600px;
+    }
+
+    .welcome-screen {
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .welcome-screen h2 {
+      color: #00D4FF;
+      margin-bottom: 1rem;
+    }
+
+    .quick-commands {
+      margin-top: 2rem;
+      text-align: left;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .quick-commands ul {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .quick-commands li {
+      padding: 0.5rem;
+      background: rgba(0, 212, 255, 0.1);
+      margin: 0.5rem 0;
+      border-radius: 6px;
+      border-left: 3px solid #00D4FF;
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 600px;
+    }
+
+    label {
+      color: #00D4FF;
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 6px;
+      padding: 0.75rem;
+      color: #E4E4E7;
+      font-family: inherit;
+    }
+
+    textarea {
+      resize: vertical;
+      font-family: 'Courier New', monospace;
+    }
+
+    .btn-primary {
+      background: #00D4FF;
+      color: #0A0E27;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: #00b8e6;
+      transform: translateY(-2px);
+    }
+
+    .results-section {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+    }
+
+    .success-box {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid #22C55E;
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .error-box {
+      background: rgba(255, 0, 64, 0.1);
+      border: 1px solid #FF0040;
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      font-size: 1.2rem;
+    }
+
+    .result-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <header class="header">
+      <h1>🔐 CIPHER - Crypto Forensics</h1>
+      <div class="voice-control">
+        <button id="voiceBtn" class="voice-btn">
+          <span class="mic-icon">🎤</span>
+          <span class="status">Ready</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <aside class="sidebar">
+        <div class="tool-card" data-tool="wallet-recovery">
+          <div class="tool-icon">💼</div>
+          <h3>Wallet Recovery</h3>
+          <p class="tool-desc">Recover lost mnemonics</p>
+        </div>
+        
+        <div class="tool-card" data-tool="crypto-hash">
+          <div class="tool-icon">🔐</div>
+          <h3>Crypto Hash</h3>
+          <p class="tool-desc">SHA-256 hashing</p>
+        </div>
+        
+        <div class="tool-card" data-tool="address-check">
+          <div class="tool-icon">✅</div>
+          <h3>Address Validator</h3>
+          <p class="tool-desc">Validate crypto addresses</p>
+        </div>
+      </aside>
+
+      <main class="workspace" id="workspace">
+        <div class="welcome-screen">
+          <h2>Welcome to CIPHER</h2>
+          <p>Professional crypto forensics platform</p>
+          <p style="margin-top: 1rem; color: #9CA3AF;">Select a tool from the sidebar or use voice commands</p>
+          <div class="quick-commands">
+            <h3>Try saying:</h3>
+            <ul>
+              <li>"Recover wallet"</li>
+              <li>"Hash data"</li>
+              <li>"Validate address"</li>
+            </ul>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

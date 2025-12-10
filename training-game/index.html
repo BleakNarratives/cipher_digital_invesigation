@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mr. Carter's Crypto Forensics Training Arena</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="game-container">
+    <!-- Title Screen -->
+    <div id="titleScreen" class="screen active">
+      <div class="title-content">
+        <h1 class="glitch" data-text="MR. CARTER'S">MR. CARTER'S</h1>
+        <h2 class="neon">CRYPTO FORENSICS TRAINING ARENA</h2>
+        <div class="subtitle">🥊 PUNCH-OUT STYLE TERMINAL TRAINING 🥊</div>
+        
+        <div class="fighter-preview">
+          <div class="player-card">
+            <div class="pixel-art">🧑‍💻</div>
+            <h3>MR. CARTER</h3>
+            <p class="stats">
+              Knowledge: ███░░░░░░░ 30%<br>
+              Speed: ██░░░░░░░░ 20%<br>
+              Power: █░░░░░░░░░ 10%
+            </p>
+          </div>
+          
+          <div class="vs">VS</div>
+          
+          <div class="opponent-card">
+            <div class="pixel-art">🤖</div>
+            <h3>TERMINAL TYSON</h3>
+            <p class="stats">
+              Difficulty: ████████░░ 80%<br>
+              Speed: ███████░░░ 70%<br>
+              Power: █████████░ 90%
+            </p>
+          </div>
+        </div>
+        
+        <button class="start-btn pulse" onclick="startGame()">
+          🥊 ENTER THE RING 🥊
+        </button>
+        
+        <div class="instructions">
+          <p>Answer questions correctly and quickly to land devastating blows!</p>
+          <p>Wrong answers? You'll take damage!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+      <div class="hud">
+        <div class="player-hud">
+          <h3>🧑‍💻 MR. CARTER</h3>
+          <div class="health-bar">
+            <div id="playerHealth" class="health-fill" style="width: 100%"></div>
+          </div>
+          <div class="stats-display">
+            <span>💪 Combo: <span id="combo">0</span></span>
+            <span>⚡ Speed Bonus: <span id="speedBonus">0</span>%</span>
+          </div>
+        </div>
+        
+        <div class="round-display">
+          <div class="round-number">ROUND <span id="roundNum">1</span></div>
+          <div class="timer" id="timer">30</div>
+        </div>
+        
+        <div class="opponent-hud">
+          <h3><span id="opponentName">TERMINAL TYSON</span> 🤖</h3>
+          <div class="health-bar">
+            <div id="opponentHealth" class="health-fill opponent" style="width: 100%"></div>
+          </div>
+          <div class="stats-display">
+            <span>🎯 Accuracy: <span id="accuracy">0</span>%</span>
+            <span>🏆 Score: <span id="score">0</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arena">
+        <div class="ring">
+          <div class="fighter player" id="player">
+            <div class="fighter-sprite">🧑‍💻</div>
+            <div class="fighter-name">MR. CARTER</div>
+          </div>
+          
+          <div class="fighter opponent" id="opponent">
+            <div class="fighter-sprite">🤖</div>
+            <div class="fighter-name" id="opponentNameDisplay">TERMINAL TYSON</div>
+          </div>
+          
+          <div id="impactEffect" class="impact-effect"></div>
+          <div id="floatingText" class="floating-text"></div>
+        </div>
+      </div>
+
+      <div class="question-panel">
+        <div class="question-header">
+          <h3>📚 TRAINING CHALLENGE</h3>
+          <div class="difficulty" id="difficulty">BEGINNER</div>
+        </div>
+        
+        <div class="explanation" id="explanation">
+          <!-- Explanation text goes here -->
+        </div>
+        
+        <div class="question" id="question">
+          <!-- Question text goes here -->
+        </div>
+        
+        <div class="answers" id="answers">
+          <!-- Answer buttons go here -->
+        </div>
+        
+        <div class="hint-section">
+          <button class="hint-btn" onclick="showHint()">💡 Need a Hint?</button>
+          <div id="hintText" class="hint-text"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Victory Screen -->
+    <div id="victoryScreen" class="screen">
+      <div class="victory-content">
+        <h1 class="victory-title">🏆 KNOCKOUT! 🏆</h1>
+        <h2>MR. CARTER WINS!</h2>
+        
+        <div class="final-stats">
+          <h3>FIGHT STATISTICS</h3>
+          <div class="stat-row">
+            <span>Total Score:</span>
+            <span id="finalScore">0</span>
+          </div>
+          <div class="stat-row">
+            <span>Accuracy:</span>
+            <span id="finalAccuracy">0%</span>
+          </div>
+          <div class="stat-row">
+            <span>Max Combo:</span>
+            <span id="maxCombo">0</span>
+          </div>
+          <div class="stat-row">
+            <span>Time Bonus:</span>
+            <span id="timeBonus">0</span>
+          </div>
+          <div class="stat-row">
+            <span>Rank:</span>
+            <span id="rank">ROOKIE</span>
+          </div>
+        </div>
+        
+        <div class="unlocked">
+          <h3>🎉 NEW SKILLS UNLOCKED!</h3>
+          <div id="unlockedSkills"></div>
+        </div>
+        
+        <div class="victory-buttons">
+          <button class="btn-primary" onclick="nextOpponent()">
+            🥊 NEXT OPPONENT
+          </button>
+          <button class="btn-secondary" onclick="restartGame()">
+            🔄 TRAIN AGAIN
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Defeat Screen -->
+    <div id="defeatScreen" class="screen">
+      <div class="defeat-content">
+        <h1 class="defeat-title">💥 KNOCKED OUT! 💥</h1>
+        <h2>Don't give up, Mr. Carter!</h2>
+        
+        <div class="defeat-message">
+          <p>Every champion was once a beginner.</p>
+          <p>Review the training materials and try again!</p>
+        </div>
+        
+        <div class="review-section">
+          <h3>📖 REVIEW YOUR MISTAKES</h3>
+          <div id="mistakes"></div>
+        </div>
+        
+        <div class="defeat-buttons">
+          <button class="btn-primary" onclick="restartGame()">
+            💪 TRY AGAIN
+          </button>
+          <button class="btn-secondary" onclick="backToTitle()">
+            🏠 MAIN MENU
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sound Effects (text-based) -->
+  <div id="soundEffect" class="sound-effect"></div>
+
+  <script src="questions.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
