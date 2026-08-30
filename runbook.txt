@@ -1,0 +1,41 @@
+CIPHER DIGITAL INVESTIGATION — OPERATIONAL RUNBOOK
+==================================================
+
+PURPOSE
+-------
+Digital investigation toolkit with architecture, deployment, and brand identity.
+Multiple documentation files indicate a structured, deployable project.
+
+KEY DOCUMENTS
+-------------
+ARCHITECTURE.md      — System architecture
+DEPLOYMENT.md        — Deployment instructions
+DEPLOYMENT_READY.md  — Deployment readiness checklist
+AUDIT_REPORT.md      — Security audit
+BRAND-IDENTITY.md    — Brand identity guide
+FEATURES.md          — Feature list
+CHANGELOG.md         — Version history
+CONTRIBUTING.md      — Contribution guide
+
+SAFE OPERATIONS
+---------------
+# Review architecture
+cat ARCHITECTURE.md
+
+# Check deployment readiness
+cat DEPLOYMENT_READY.md
+
+# Verify git state
+git status 2>/dev/null || echo "No git repo"
+
+DANGEROUS OPERATIONS
+--------------------
+- Audit report may contain security findings — review before acting
+- Deployment instructions — verify target environment before executing
+- Brand identity and features docs may contain proprietary info
+
+RECOVERY NOTES
+--------------
+- Well-documented project with clear deployment path
+- Multiple doc layers suggest production-ready status
+- Verify against rclone backup before modifications
